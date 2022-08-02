@@ -1,6 +1,6 @@
 use crate::misc::*;
 
-fn sort_fun(m: &Pixels, j: usize) -> (i32, i32)
+fn sort_fun(m: &PixelsCoordinate, j: usize) -> (i32, i32)
 {
 
     let x1 = m.x[j+1];
@@ -13,36 +13,23 @@ fn sort_fun(m: &Pixels, j: usize) -> (i32, i32)
     {
         return (x1, y1);
     }
-
-    else {
+    else 
+    {
         return (x0, y0);
     }
 
 }
 
-pub fn bubble_sort_algo(m: &mut Pixels)
+pub fn bubble_sort_algo(m: &mut PixelsCoordinate)
 {
 
-    let mut m_tmp = Pixels { x: Vec::new(), y: Vec::new() };
-
-    for j in (0..m.x.len()).step_by(2) {
+    for j in 0..(m.y.len() -1) {
         
-
         let (x, y) = sort_fun(m, j);
         
-
-        m_tmp.x.push(x);
-        m_tmp.y.push(y);
-
-    }
-
-
-    for i in 0..m_tmp.x.len() {
-        
-        m.x[i] = m_tmp.x[i];
-        m.y[i] = m_tmp.y[i];
+        m.x[j] = x;
+        m.y[j] = y;
 
     }
-
 
 }

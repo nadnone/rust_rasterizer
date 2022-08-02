@@ -1,53 +1,61 @@
+use pixels::Pixels;
+
 use crate::misc::*;
 use crate::bubble_sort_algo::*;
 
-pub fn scanline_algo(m: &mut Pixels)
+fn binary_search(y0: i32, m: &mut PixelsCoordinate) -> i32
+{
+
+    let mut r = m.y.len() as i32;
+    let mut l = 0;
+
+
+    while l < r {
+
+        let n = (l + r) / 2;
+        
+        if m.y[n as usize] < y0
+        {
+            l = n + 1;
+        }        
+        else
+        {
+            r = n;    
+        }
+    }
+
+
+    return l;
+}
+
+pub fn scanline_algo(m: &mut PixelsCoordinate, canvas: &mut Pixels)
 {
     bubble_sort_algo(m);
 
-    for i in 0..(m.x.len() - 1) {
+    for j in 0..(m.y.len() - 1) {
         
-
-        let x0 = m.x[i];
-        let y0 = m.y[i];
-
-
-    
-
-        let mut x_list: Vec<i32> = Vec::new();
+        let x0 = m.x[j];
+        let y0 = m.y[j];
 
 
 
-        for k in i..m.x.len() {
-            
-            if y0 == m.y[k]
-            {
-                x_list.push(m.x[k]);
-            }
+        let n = binary_search(y0, m);
+
+        if n == -1
+        {
+            println!("error not found {j}");
+            return;
         }
+        let x1 = m.x[n as usize];
 
-
-        let x1 = x_list[x_list.len()-1];
-
-
+        
         if x0 < x1
         {
-            for x in x0..x1 {
-                
-                //draw(x, y, [200, 100, 0]);
-                draw_pixel(x, y0, [200, 100, 0]); 
-                
-            }
-        }
+                draw_line(x0, x1, y0, [255, 0, 0], canvas); 
+        }  
         else
         {
-            for x in x1..x0 {
-                
-                //draw(x, y, [200, 100, 0]);
-                draw_pixel(x, y0, [200, 100, 0]); 
-
-
-            }
+                draw_line(x1, x0, y0, [255, 0, 0], canvas); 
         }
 
 
