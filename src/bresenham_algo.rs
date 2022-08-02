@@ -49,7 +49,7 @@ fn bresenham_calculus(objet: &mut ObjectDraw, k: usize, m: &mut PixelsCoordinate
 
     for y in objet.obj[k+a].y .. (objet.obj[k+l].y + 1)
     {   
-        let x = ( ( x1 - x0 ) /  ( y1 - y0 ) * ( y as f32 - x0 ) ) + y0;
+        let x = ( ( x1 - x0 ) /  ( y1 - y0 ) * ( y as f32 - x0 ) ) + x0;
 
         m.x.push(x as i32);
         m.y.push(y);
