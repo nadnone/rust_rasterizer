@@ -25,10 +25,8 @@ fn main()
     let item2 = Item { x: 10, y: 50 };
     let item3 = Item { x: 50, y: 50 };
 
-    let item4 = Item { x: 10, y: 10 };
 
-
-    let mut objet = ObjectDraw { obj: vec![ item1, item2, item3, item4 ] };
+    let mut objet = ObjectDraw { obj: vec![ item1, item2, item3 ] };
     let mut m = PixelsCoordinate { x: Vec::new(), y: Vec::new() };
 
     Rasterizer::init(&mut m, &mut objet);

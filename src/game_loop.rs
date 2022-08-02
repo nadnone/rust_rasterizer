@@ -19,6 +19,13 @@ pub fn game_loop(m: &mut PixelsCoordinate, canvas: &mut Pixels)
 
         let t = t0.elapsed().as_secs_f32();
 
+
+        if canvas.render().is_err()
+        {
+            println!("error");
+            return ;
+        }
+
         println!("dt: {t}");
 
     }

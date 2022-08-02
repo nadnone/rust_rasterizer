@@ -15,7 +15,7 @@ pub struct ObjectDraw {
 
 pub const WIDTH:u32 = 100;
 pub const HEIGHT:u32 = 100;
-pub const FPS:f32 = 0.01;
+pub const FPS:f32 = 1.0/60.0;
 pub const FACTOR_SIZE:f64 = 8.0;
 
 
@@ -38,9 +38,9 @@ pub fn log(message: String)
 }
 */
 
-fn ix(x: u32, y: u32) -> usize
+fn ix(x: i32, y: i32) -> usize
 {
-    return ( x + y * WIDTH ) as usize;
+    return ( x + y * WIDTH as i32) as usize;
 }
 
 pub fn draw_line(x0: i32, x1: i32, y: i32, c: [u8; 3], canvas: &mut Pixels)
@@ -58,22 +58,12 @@ fn draw_pixel(x: i32, y: i32, c: [u8; 3], canvas: &mut Pixels)
     let color = [c[0], c[1], c[2], 255];
 
 
-    for pixel in frame.chunks_exact_mut(4).skip(ix(x as u32,y as u32))
-    {
-        pixel[0] = color[0];
-        pixel[1] = color[1];
-        pixel[2] = color[2];
-        pixel[3] = color[3];
-
+  
+    for pixel in frame.chunks_exact_mut(4).skip(ix(x, y)) {
+       
+        pixel.copy_from_slice(&color);
         break;
-
     }
+
    
-
-
-    if canvas.render().is_err()
-    {
-        println!("error");
-        return ;
-    }
 }
