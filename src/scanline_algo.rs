@@ -1,12 +1,9 @@
-use pixels::Pixels;
+use crate::rasterizer::*;
 
-use crate::misc::*;
-use crate::bubble_sort_algo::*;
-
-fn binary_search(y0: i32, m: &mut PixelsCoordinate) -> i32
+fn binary_search(y0: i32, m: &mut Vec<Item>) -> i32
 {
 
-    let mut r = m.y.len() as i32;
+    let mut r = m.len() as i32;
     let mut l = 0;
 
 
@@ -14,50 +11,58 @@ fn binary_search(y0: i32, m: &mut PixelsCoordinate) -> i32
 
         let n = (l + r) / 2;
         
-        if m.y[n as usize] < y0
+        if m[n as usize].y < y0
         {
             l = n + 1;
-        }        
+        }
         else
         {
             r = n;    
         }
     }
 
-
     return l;
 }
 
 pub fn scanline_algo(m: &mut PixelsCoordinate, canvas: &mut Pixels)
 {
-    bubble_sort_algo(m);
+    let mut m_tmp = m.coord.clone();
 
-    for j in 0..(m.y.len() - 1) {
+    if m.coord.len() == 0
+    {
+        return ;
+    }
+
+    for i in 0..m.coord.len() {
         
-        let x0 = m.x[j];
-        let y0 = m.y[j];
+        
+        let x0 = m.coord[i].x;
+        let y0 = m.coord[i].y;
 
 
 
-        let n = binary_search(y0, m);
+        let n = binary_search(y0, &mut m_tmp);
 
-        if n == -1
+
+        if n as usize >= m.coord.len()
         {
-            println!("error not found {j}");
+            println!("error not found {i}");
             return;
         }
-        let x1 = m.x[n as usize];
 
-        
+        let x1 = m.coord[n as usize].x;
+
         if x0 < x1
         {
-                draw_line(x0, x1, y0, [255, 0, 0], canvas); 
+            draw_line(x0, x1, y0, m.coord[i].color, m.width, canvas); 
         }  
         else
         {
-                draw_line(x1, x0, y0, [255, 0, 0], canvas); 
-        }
+            draw_line(x1, x0, y0, m.coord[i].color, m.width, canvas); 
+        } 
 
+
+        
 
     }
 
