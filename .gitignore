@@ -1,3 +1,4 @@
 /target
 Cargo.lock
 log.txt
+src/bresenham_algo.rs
